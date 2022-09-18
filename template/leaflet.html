@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"/>
+  <!-- <link rel="stylesheet" href="css/main.css"> -->
+  <style media="screen">
+    #map { height: 700px; }
+  </style>
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+  <header>
+    <nav>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <p>VectorTile Demo with Django</p>
+      <div id="map"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p> <a href="https://kaflekrishna.com.np/">Krishna Kafle;</a> 2022. All rights reserved. </p>
+  </footer>
+
+  <!-- Make sure you put this AFTER Leaflet's CSS -->
+<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+<script type="text/javascript"  src="https://unpkg.com/leaflet.vectorgrid@1.2.0"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    var map = L.map('map').setView([27.8866973518, 83.5295724], 7);
+    // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //     maxZoom: 19,
+    //     attribution: '© OpenStreetMap'
+    // }).addTo(map);
+    L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+    }).addTo(map);
+
+    var vectorTileUrl = "/layers/district/{z}/{x}/{y}";
+    var mapboxVectorTileOptions = {
+			rendererFactory: L.canvas.tile,
+			attribution: '&copy; <a href="https://kaflekrishna.com.np/">Krishna Kafle</a>',
+			// vectorTileLayerStyles: vectorTileStyling,
+		};
+
+
+		var mapboxPbfLayer = L.vectorGrid.protobuf(vectorTileUrl, mapboxVectorTileOptions).addTo(map);
+
+
+  });
+</script>
+</body>
+
+</html>
